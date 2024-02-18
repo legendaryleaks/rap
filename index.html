@@ -193,7 +193,7 @@ function formatValue(value) {
     // Add commas for thousands, millions, and billions
     formattedValue = formattedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    return '(' + formattedValue + ')';
+    return value + '(' + formattedValue + ')';
 }
 
 
