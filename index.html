@@ -146,33 +146,56 @@
     }
 
     function populateTable() {
-        tableBody.innerHTML = '';
-        petsData.forEach(pet => {
-            const tr = document.createElement('tr');
-            const item = pet[0];
-            const petId = pet[1].id;
-            let type = '';
+    tableBody.innerHTML = '';
+    petsData.forEach(pet => {
+        const tr = document.createElement('tr');
+        const item = pet[0];
+        const petId = pet[1].id;
+        let type = '';
 
-            if (item === 'Pet') {
-                type = pet[1].pt === 1 ? 'Golden' : (pet[1].pt === 2 ? 'Rainbow' : 'Normal');
-            } else {
-                type = 'N/A';
-            }
+        if (item === 'Pet') {
+            type = pet[1].pt === 1 ? 'Golden' : (pet[1].pt === 2 ? 'Rainbow' : 'Normal');
+        } else {
+            type = 'N/A';
+        }
 
-            const shiny = pet[1].sh ? 'Yes' : 'No';
-            const value = pet[2];
+        const shiny = pet[1].sh ? 'Yes' : 'No';
+        let value = pet[2];
 
-            const petData = [item, petId, type, shiny, value];
+        // Format the value with commas and round to the nearest whole number
+        value = formatValue(value);
 
-            petData.forEach(data => {
-                const td = document.createElement('td');
-                td.textContent = data;
-                tr.appendChild(td);
-            });
+        const petData = [item, petId, type, shiny, value];
 
-            tableBody.appendChild(tr);
+        petData.forEach(data => {
+            const td = document.createElement('td');
+            td.textContent = data;
+            tr.appendChild(td);
         });
+
+        tableBody.appendChild(tr);
+    });
+}
+
+function formatValue(value) {
+    let formattedValue = '';
+
+    if (value >= 1000000000) { // Billion
+        formattedValue = (value / 1000000000).toFixed(0) + 'B';
+    } else if (value >= 1000000) { // Million
+        formattedValue = (value / 1000000).toFixed(0) + 'M';
+    } else if (value >= 1000) { // Thousand
+        formattedValue = (value / 1000).toFixed(0) + 'K';
+    } else {
+        formattedValue = value.toFixed(0); // No prefix needed
     }
+
+    // Add commas for thousands, millions, and billions
+    formattedValue = formattedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return '(' + formattedValue + ')';
+}
+
 
     function searchPets() {
         const input = document.getElementById('searchInput');
