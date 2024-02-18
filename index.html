@@ -180,20 +180,19 @@
 function formatValue(value) {
     let formattedValue = '';
 
-    if (value >= 1000000000) { // Billion
-        formattedValue = (value / 1000000000).toFixed(0) + 'B';
-    } else if (value >= 1000000) { // Million
-        formattedValue = (value / 1000000).toFixed(0) + 'M';
-    } else if (value >= 1000) { // Thousand
-        formattedValue = (value / 1000).toFixed(0) + 'K';
+    if (value >= 1000000000) { 
+        formattedValue = (value / 1000000000).toFixed(2) + 'B';
+    } else if (value >= 1000000) { 
+        formattedValue = (value / 1000000).toFixed(2) + 'M';
+    } else if (value >= 1000) { 
+        formattedValue = (value / 1000).toFixed(2) + 'K';
     } else {
-        formattedValue = value.toFixed(0); // No prefix needed
+        formattedValue = value.toFixed(0);
     }
 
-    // Add commas for thousands, millions, and billions
     formattedValue = formattedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    return value + '(' + formattedValue + ')';
+    roundedValue = value.toFixed(0);
+    return roundedValue + ' (' + formattedValue + ')';
 }
 
 
